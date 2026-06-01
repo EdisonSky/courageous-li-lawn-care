@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import { uploadSignupPhoto } from '../api/signupApi';
 import type { SignupResult } from '../types';
 import { SERVICE_OPTIONS } from '../types';
 
@@ -11,6 +13,26 @@ function serviceLabel(value: SignupResult['serviceType']) {
 }
 
 export function SignupSuccess({ result, onReset }: SignupSuccessProps) {
+  const [photoUrl, setPhotoUrl] = useState<string | null>(result.lawnPhotoUrl);
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
+
+  async function handlePhotoChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploading(true);
+    setUploadError(null);
+    try {
+      const uploaded = await uploadSignupPhoto(result.id, file);
+      setPhotoUrl(uploaded.lawnPhotoUrl);
+    } catch (err) {
+      setUploadError(err instanceof Error ? err.message : 'Upload failed');
+    } finally {
+      setUploading(false);
+    }
+  }
+
   return (
     <div className="success-card">
       <div className="success-icon">✓</div>
@@ -44,6 +66,31 @@ export function SignupSuccess({ result, onReset }: SignupSuccessProps) {
           <dd>{result.status}</dd>
         </div>
       </dl>
+
+      <section className="photo-upload">
+        <h3>Optional: upload a lawn photo</h3>
+        <p className="photo-hint">
+          On AWS, this file is stored in S3 under{' '}
+          <code>signups/{result.id}/</code>
+        </p>
+        <input
+          type="file"
+          accept="image/*"
+          onChange={handlePhotoChange}
+          disabled={uploading}
+        />
+        {uploading && <p className="photo-status">Uploading…</p>}
+        {uploadError && <p className="error-banner">{uploadError}</p>}
+        {photoUrl && (
+          <p className="photo-status">
+            Saved to S3:{' '}
+            <a href={photoUrl} target="_blank" rel="noreferrer">
+              view photo
+            </a>
+          </p>
+        )}
+      </section>
+
       <button className="submit-btn secondary" type="button" onClick={onReset}>
         Submit another signup
       </button>

@@ -49,4 +49,7 @@ public class Signup {
 
     @Column(nullable = false)
     private Instant createdAt;
+
+    /** S3 object key, e.g. signups/1/lawn.jpg */
+    private String lawnPhotoKey;
 }

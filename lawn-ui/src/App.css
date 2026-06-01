@@ -183,3 +183,34 @@
   margin: 0;
   color: #1a2e1a;
 }
+
+.photo-upload {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  border: 1px dashed #c8dcc0;
+  border-radius: 10px;
+  text-align: left;
+  background: #fafcf9;
+}
+
+.photo-upload h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+  color: #234223;
+}
+
+.photo-hint {
+  margin: 0 0 0.75rem;
+  font-size: 0.85rem;
+  color: #4a5f4a;
+}
+
+.photo-status {
+  margin: 0.75rem 0 0;
+  font-size: 0.9rem;
+  color: #355635;
+}
+
+.photo-upload code {
+  font-size: 0.85em;
+}

@@ -10,6 +10,8 @@ public record SignupResponse(
         int lotSizeSqFt,
         LocalDate preferredStartDate,
         SignupStatus status,
-        Instant createdAt
+        Instant createdAt,
+        String lawnPhotoKey,
+        String lawnPhotoUrl
 ) {
 }

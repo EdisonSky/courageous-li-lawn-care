@@ -27,6 +27,14 @@ export interface SignupResult {
   preferredStartDate: string;
   status: SignupStatus;
   createdAt: string;
+  lawnPhotoKey: string | null;
+  lawnPhotoUrl: string | null;
+}
+
+export interface PhotoUploadResult {
+  signupId: number;
+  lawnPhotoKey: string;
+  lawnPhotoUrl: string;
 }
 
 export const SERVICE_OPTIONS: { value: ServiceType; label: string }[] = [
